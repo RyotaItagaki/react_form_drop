@@ -1,0 +1,34 @@
+image: node:16.13.0
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - yarn
+    - yarn build
+
+test:
+  stage: test
+  script:
+    - yarn test
+
+pages:
+  stage: deploy
+  script:
+    - yarn
+    - yarn build
+    - rm -rf public
+    - mv build public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
